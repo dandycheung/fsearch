@@ -70,20 +70,6 @@ fsearch_database_index_get_id(FsearchDatabaseIndex *self);
 FsearchDatabaseIndexPropertyFlags
 fsearch_database_index_get_flags(FsearchDatabaseIndex *self);
 
-FsearchDatabaseEntry *
-fsearch_database_index_add_file(FsearchDatabaseIndex *self,
-                                const char *name,
-                                off_t size,
-                                time_t mtime,
-                                FsearchDatabaseEntry *parent);
-
-FsearchDatabaseEntry *
-fsearch_database_index_add_folder(FsearchDatabaseIndex *self,
-                                  const char *name,
-                                  const char *path,
-                                  time_t mtime,
-                                  FsearchDatabaseEntry *parent);
-
 void
 fsearch_database_index_lock(FsearchDatabaseIndex *self);
 

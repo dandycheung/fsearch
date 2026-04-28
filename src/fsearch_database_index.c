@@ -468,8 +468,18 @@ process_create_event(FsearchDatabaseIndex *self, FsearchFolderMonitorEvent *even
         }
     }
     else {
-        FsearchDatabaseEntry *entry =
-            fsearch_database_index_add_file(self, event->name->str, size, mtime, event->watched_entry);
+        FsearchDatabaseEntry *entry = db_entry_new_with_attributes(DATABASE_INDEX_PROPERTY_FLAG_MODIFICATION_TIME
+                                                                        | DATABASE_INDEX_PROPERTY_FLAG_SIZE,
+                                                                        event->name->str,
+                                                                        event->watched_entry,
+                                                                        DATABASE_ENTRY_TYPE_FILE,
+                                                                        DATABASE_INDEX_PROPERTY_SIZE,
+                                                                        size,
+                                                                        DATABASE_INDEX_PROPERTY_MODIFICATION_TIME,
+                                                                        mtime,
+                                                                        DATABASE_INDEX_PROPERTY_NONE);
+        fsearch_database_chunked_array_insert(self->file_chunks, entry);
+
         files = darray_new(1);
         darray_add_item(files, entry);
     }
@@ -880,30 +890,6 @@ bool
 fsearch_database_index_get_one_file_system(FsearchDatabaseIndex *self) {
     g_assert(self);
     return self->include ? fsearch_database_include_get_one_file_system(self->include) : false;
-}
-
-FsearchDatabaseEntry *
-fsearch_database_index_add_file(FsearchDatabaseIndex *self,
-                                const char *name,
-                                off_t size,
-                                time_t mtime,
-                                FsearchDatabaseEntry *parent) {
-    g_return_val_if_fail(self, NULL);
-
-    FsearchDatabaseEntry *file_entry = db_entry_new_with_attributes(DATABASE_INDEX_PROPERTY_FLAG_MODIFICATION_TIME
-                                                                    | DATABASE_INDEX_PROPERTY_FLAG_SIZE,
-                                                                    name,
-                                                                    parent,
-                                                                    DATABASE_ENTRY_TYPE_FILE,
-                                                                    DATABASE_INDEX_PROPERTY_SIZE,
-                                                                    size,
-                                                                    DATABASE_INDEX_PROPERTY_MODIFICATION_TIME,
-                                                                    mtime,
-                                                                    DATABASE_INDEX_PROPERTY_NONE);
-
-    fsearch_database_chunked_array_insert(self->file_chunks, file_entry);
-
-    return file_entry;
 }
 
 void
