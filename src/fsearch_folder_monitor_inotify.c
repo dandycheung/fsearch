@@ -1,11 +1,20 @@
 #include "fsearch_folder_monitor_inotify.h"
 
-#include <config.h>
-#include <glib-unix.h>
-#include <sys/inotify.h>
-
 #include "fsearch_database_entry.h"
 #include "fsearch_folder_monitor_event.h"
+
+#include <config.h>
+#include <errno.h>
+#include <glib.h>
+#include <glib-unix.h>
+#include <glibconfig.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <sys/inotify.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 
 #define INOTIFY_FOLDER_MASK                                                                                            \
     (IN_ATTRIB | IN_MOVED_FROM | IN_MOVED_TO | IN_DELETE | IN_CREATE | IN_DELETE_SELF | IN_UNMOUNT | IN_MOVE_SELF      \

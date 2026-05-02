@@ -1,13 +1,25 @@
 #include "fsearch_folder_monitor_fanotify.h"
 
-#include <config.h>
-#include <glib-unix.h>
-#include <sys/fanotify.h>
-#include <sys/vfs.h>
-
 #include "fsearch_database_entry.h"
 #include "fsearch_database_entry_flags.h"
 #include "fsearch_folder_monitor_event.h"
+
+#include <config.h>
+#include <fcntl.h>
+#include <glib.h>
+#include <glib-unix.h>
+#include <glibconfig.h>
+#include <linux/fanotify.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/fanotify.h>
+#include <sys/statfs.h>
+#include <sys/types.h>
+#include <sys/vfs.h>
+#include <unistd.h>
+
 
 #define FANOTIFY_FOLDER_MASK                                                                                           \
     (FAN_CREATE | FAN_CLOSE_WRITE | FAN_ATTRIB | FAN_DELETE | FAN_DELETE_SELF | FAN_MOVED_TO | FAN_MOVED_FROM          \
