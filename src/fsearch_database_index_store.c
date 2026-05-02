@@ -525,6 +525,18 @@ static void
 index_store_free(FsearchDatabaseIndexStore *store) {
     g_return_if_fail(store);
 
+    // Wait for tasks to finish must be TRUE since the worker threads might be using the worker_pool_collect_queue
+    // Hence, make sure to unref the queue only after the pool has been terminated
+    g_thread_pool_free(g_steal_pointer(&store->worker_pool), FALSE, TRUE);
+    g_clear_pointer(&store->worker_pool_collect_queue, g_async_queue_unref);
+
+    g_clear_pointer(&store->search_results, g_hash_table_unref);
+    index_store_sorted_entries_free(store);
+    g_clear_pointer(&store->indices, g_ptr_array_unref);
+    g_clear_object(&store->include_manager);
+    g_clear_object(&store->exclude_manager);
+
+    // Only stop the monitor and worker threads after the indices have been freed, since they need
     if (store->monitor.loop) {
         g_main_context_invoke_full(store->monitor.ctx,
                                    G_PRIORITY_HIGH,
@@ -548,17 +560,6 @@ index_store_free(FsearchDatabaseIndexStore *store) {
         g_thread_join(store->worker.thread);
     }
     g_clear_pointer(&store->worker.ctx, g_main_context_unref);
-
-    // Wait for tasks to finish must be TRUE since the worker threads might be using the worker_pool_collect_queue
-    // Hence, make sure to unref the queue only after the pool has been terminated
-    g_thread_pool_free(g_steal_pointer(&store->worker_pool), FALSE, TRUE);
-    g_clear_pointer(&store->worker_pool_collect_queue, g_async_queue_unref);
-
-    g_clear_pointer(&store->search_results, g_hash_table_unref);
-    index_store_sorted_entries_free(store);
-    g_clear_pointer(&store->indices, g_ptr_array_unref);
-    g_clear_object(&store->include_manager);
-    g_clear_object(&store->exclude_manager);
 
     g_mutex_clear(&store->mutex);
 
@@ -680,6 +681,7 @@ fsearch_database_index_store_start(FsearchDatabaseIndexStore *store, GCancellabl
         return;
     }
 
+    // Initialize the working array so that in case the scan was canceled, the indices are destroyed
     g_autoptr(GPtrArray) indices = g_ptr_array_new_with_free_func((GDestroyNotify)fsearch_database_index_unref);
     g_autoptr(GPtrArray) includes = fsearch_database_include_manager_get_includes(store->include_manager);
     for (uint32_t i = 0; i < includes->len; ++i) {
@@ -701,14 +703,22 @@ fsearch_database_index_store_start(FsearchDatabaseIndexStore *store, GCancellabl
 
     g_autoptr(DynamicArray) store_files = darray_new(1024);
     g_autoptr(DynamicArray) store_folders = darray_new(1024);
-    for (uint32_t i = 0; i < indices->len; ++i) {
-        FsearchDatabaseIndex *index = g_ptr_array_index(indices, i);
+    while (indices->len > 0) {
+        // Steal index so free func isn't called and we get ownership of index.
+        FsearchDatabaseIndex *index = g_ptr_array_steal_index(indices, 0);
+        if (!index) {
+            // In practice there shouldn't be a NULL element in between valid indices. Still, if it happens, we can
+            // jump to the next iteration
+            continue;
+        }
 
         if (index_store_has_index_with_same_id(store, index)
             || !index_store_flags_equal(store, fsearch_database_index_get_flags(index))) {
+            // We don't need that index: free it
+            g_clear_pointer(&index, fsearch_database_index_unref);
             continue;
         }
-        g_ptr_array_add(store->indices, fsearch_database_index_ref(index));
+        g_ptr_array_add(store->indices, index);
         fsearch_database_index_lock(index);
         g_autoptr(DynamicArray) files = fsearch_database_index_get_files(index);
         g_autoptr(DynamicArray) folders = fsearch_database_index_get_folders(index);

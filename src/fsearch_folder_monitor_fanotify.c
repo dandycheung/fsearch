@@ -3,6 +3,7 @@
 #include "fsearch_database_entry.h"
 #include "fsearch_database_entry_flags.h"
 #include "fsearch_folder_monitor_event.h"
+#include "fsearch_main_context_utils.h"
 
 #include <config.h>
 #include <fcntl.h>
@@ -304,7 +305,7 @@ fsearch_folder_monitor_fanotify_new(GMainContext *monitor_context, GAsyncQueue *
     self->folders_to_handles =
         g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)g_bytes_unref);
 
-    self->monitor_context = g_main_context_ref(monitor_context);
+    self->monitor_context = monitor_context;
 
     self->monitor_source = g_unix_fd_source_new(self->fd, G_IO_IN | G_IO_ERR | G_IO_HUP);
     g_source_set_callback(self->monitor_source, (GSourceFunc)fanotify_listener_cb, self, NULL);
@@ -320,7 +321,9 @@ fsearch_folder_monitor_fanotify_free(FsearchFolderMonitorFanotify *self) {
     g_return_if_fail(self);
 
     if (self->monitor_source) {
-        g_source_destroy(self->monitor_source);
+        fsearch_main_context_blocking_call(self->monitor_context,
+                                           (FsearchMainContextFunc)g_source_destroy,
+                                           self->monitor_source);
     }
     g_clear_pointer(&self->monitor_source, g_source_unref);
     unwatch_all(self);
@@ -331,7 +334,6 @@ fsearch_folder_monitor_fanotify_free(FsearchFolderMonitorFanotify *self) {
         close(self->fd);
     }
 
-    g_clear_pointer(&self->monitor_context, g_main_context_unref);
     g_clear_pointer(&self->event_queue, g_async_queue_unref);
 
     g_mutex_clear(&self->mutex);
@@ -399,7 +401,7 @@ fsearch_folder_monitor_fanotify_watch(FsearchFolderMonitorFanotify *self,
 }
 
 static void
-unwatch_folder (FsearchFolderMonitorFanotify *self, FsearchDatabaseEntry *folder) {
+unwatch_folder(FsearchFolderMonitorFanotify *self, FsearchDatabaseEntry *folder) {
     g_autoptr(GString) path_full = db_entry_get_path_full(folder);
     if (fanotify_mark(self->fd, FAN_MARK_REMOVE, FANOTIFY_FOLDER_MASK, AT_FDCWD, path_full->str)) {
         if (errno != ENOENT) {

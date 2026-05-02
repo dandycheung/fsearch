@@ -13,6 +13,7 @@
 #include "fsearch_folder_monitor_event.h"
 #include "fsearch_folder_monitor_fanotify.h"
 #include "fsearch_folder_monitor_inotify.h"
+#include "fsearch_main_context_utils.h"
 
 #include <config.h>
 #include <glib-object.h>
@@ -85,7 +86,9 @@ index_stop_root_reappearance_polling(FsearchDatabaseIndex *self) {
     g_return_if_fail(self);
 
     if (self->root_reappear_poll_source) {
-        g_source_destroy(self->root_reappear_poll_source);
+        fsearch_main_context_blocking_call(self->worker_ctx,
+                                           (FsearchMainContextFunc)g_source_destroy,
+                                           self->root_reappear_poll_source);
     }
     g_clear_pointer(&self->root_reappear_poll_source, g_source_unref);
 }
@@ -469,15 +472,15 @@ process_create_event(FsearchDatabaseIndex *self, FsearchFolderMonitorEvent *even
     }
     else {
         FsearchDatabaseEntry *entry = db_entry_new_with_attributes(DATABASE_INDEX_PROPERTY_FLAG_MODIFICATION_TIME
-                                                                        | DATABASE_INDEX_PROPERTY_FLAG_SIZE,
-                                                                        event->name->str,
-                                                                        event->watched_entry,
-                                                                        DATABASE_ENTRY_TYPE_FILE,
-                                                                        DATABASE_INDEX_PROPERTY_SIZE,
-                                                                        size,
-                                                                        DATABASE_INDEX_PROPERTY_MODIFICATION_TIME,
-                                                                        mtime,
-                                                                        DATABASE_INDEX_PROPERTY_NONE);
+                                                                   | DATABASE_INDEX_PROPERTY_FLAG_SIZE,
+                                                                   event->name->str,
+                                                                   event->watched_entry,
+                                                                   DATABASE_ENTRY_TYPE_FILE,
+                                                                   DATABASE_INDEX_PROPERTY_SIZE,
+                                                                   size,
+                                                                   DATABASE_INDEX_PROPERTY_MODIFICATION_TIME,
+                                                                   mtime,
+                                                                   DATABASE_INDEX_PROPERTY_NONE);
         fsearch_database_chunked_array_insert(self->file_chunks, entry);
 
         files = darray_new(1);
@@ -715,8 +718,6 @@ static void
 index_free(FsearchDatabaseIndex *self) {
     g_return_if_fail(self);
 
-    g_clear_pointer(&self->worker_ctx, g_main_context_unref);
-
 #ifdef HAVE_INOTIFY
     g_clear_pointer(&self->inotify_monitor, fsearch_folder_monitor_inotify_free);
 #endif
@@ -724,13 +725,19 @@ index_free(FsearchDatabaseIndex *self) {
     g_clear_pointer(&self->fanotify_monitor, fsearch_folder_monitor_fanotify_free);
 #endif
 
-    g_clear_pointer(&self->monitor_ctx, g_main_context_unref);
+    index_stop_root_reappearance_polling(self);
 
     if (self->event_source) {
-        g_source_destroy(self->event_source);
+        fsearch_main_context_blocking_call(self->worker_ctx,
+                                           (FsearchMainContextFunc)g_source_destroy,
+                                           self->event_source);
     }
+
+    g_clear_pointer(&self->worker_ctx, g_main_context_unref);
+
+    g_clear_pointer(&self->monitor_ctx, g_main_context_unref);
+
     g_clear_pointer(&self->event_source, g_source_unref);
-    index_stop_root_reappearance_polling(self);
 
     g_clear_pointer(&self->include, fsearch_database_include_unref);
     g_clear_object(&self->exclude_manager);
@@ -756,6 +763,8 @@ fsearch_database_index_new(uint32_t id,
                            gpointer event_func_data) {
     FsearchDatabaseIndex *self = calloc(1, sizeof(FsearchDatabaseIndex));
     g_assert(self);
+
+    self->ref_count = 1;
 
     self->id = id;
     self->include = fsearch_database_include_ref(include);
@@ -788,8 +797,6 @@ fsearch_database_index_new(uint32_t id,
         g_source_attach(self->event_source, self->worker_ctx);
     }
 
-    self->ref_count = 1;
-
     return self;
 }
 
@@ -802,6 +809,8 @@ fsearch_database_index_new_with_content(uint32_t id,
                                         FsearchDatabaseIndexPropertyFlags flags) {
     FsearchDatabaseIndex *self = g_slice_new0(FsearchDatabaseIndex);
     g_assert(self);
+
+    self->ref_count = 1;
 
     self->id = id;
     self->include = fsearch_database_include_ref(include);
@@ -824,8 +833,6 @@ fsearch_database_index_new_with_content(uint32_t id,
                                                            (GDestroyNotify)db_entry_free_no_unparent);
 
     g_atomic_int_set(&self->initialized, 1);
-
-    self->ref_count = 1;
 
     return self;
 }

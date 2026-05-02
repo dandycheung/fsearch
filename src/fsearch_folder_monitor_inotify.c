@@ -2,6 +2,7 @@
 
 #include "fsearch_database_entry.h"
 #include "fsearch_folder_monitor_event.h"
+#include "fsearch_main_context_utils.h"
 
 #include <config.h>
 #include <errno.h>
@@ -163,7 +164,7 @@ fsearch_folder_monitor_inotify_new(GMainContext *monitor_context, GAsyncQueue *e
     self->watch_descriptors_to_folders = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, NULL);
     self->watched_folders_to_descriptors = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, NULL);
 
-    self->monitor_context = g_main_context_ref(monitor_context);
+    self->monitor_context = monitor_context;
 
     self->monitor_source = g_unix_fd_source_new(self->fd, G_IO_IN | G_IO_ERR | G_IO_HUP);
     g_source_set_callback(self->monitor_source, (GSourceFunc)inotify_listener_cb, self, NULL);
@@ -177,11 +178,12 @@ fsearch_folder_monitor_inotify_free(FsearchFolderMonitorInotify *self) {
     g_return_if_fail(self);
 
     if (self->monitor_source) {
-        g_source_destroy(self->monitor_source);
+        fsearch_main_context_blocking_call(self->monitor_context,
+                                           (FsearchMainContextFunc)g_source_destroy,
+                                           self->monitor_source);
     }
-    g_clear_pointer(&self->monitor_source, g_source_unref);
 
-    g_clear_pointer(&self->monitor_context, g_main_context_unref);
+    g_clear_pointer(&self->monitor_source, g_source_unref);
 
     unwatch_all(self);
     g_clear_pointer(&self->watched_folders_to_descriptors, g_hash_table_unref);
@@ -249,4 +251,3 @@ fsearch_folder_monitor_inotify_unwatch(FsearchFolderMonitorInotify *self, Fsearc
         g_debug("[unwatch_folder] no inotify fd found for folder: %s", path_full->str);
     }
 }
-
