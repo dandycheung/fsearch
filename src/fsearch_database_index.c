@@ -944,7 +944,7 @@ fsearch_database_index_scan(FsearchDatabaseIndex *self, GCancellable *cancellabl
                         cancellable,
                         scan_status_cb,
                         self)) {
-        fsearch_database_index_start_polling(self);
+        index_start_root_reappearance_polling(self);
         return false;
     }
 
@@ -982,10 +982,4 @@ fsearch_database_index_start_monitoring(FsearchDatabaseIndex *self, bool start) 
     g_return_if_fail(self);
 
     g_atomic_int_set(&self->monitor, start);
-}
-
-void
-fsearch_database_index_start_polling(FsearchDatabaseIndex *self) {
-    g_return_if_fail(self);
-    index_start_root_reappearance_polling(self);
 }
