@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fsearch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 19:25+0200\n"
+"POT-Creation-Date: 2026-05-03 15:44+0200\n"
 "PO-Revision-Date: 2023-02-25 21:38+0000\n"
 "Last-Translator: Edward <edwardchirita@mailbox.org>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/fsearch/"
@@ -297,40 +297,44 @@ msgstr ""
 "Un utilitar de căutare care se concentrează pe performanță și caracteristici "
 "avansate"
 
-#: src/fsearch.c:721
+#: src/fsearch.c:725
 msgid "Open a new application window"
 msgstr "Deschideți o nouă fereastră a aplicației"
 
-#: src/fsearch.c:722
+#: src/fsearch.c:726
 #, fuzzy
 msgid "Minimize the application window"
 msgstr "Deschideți o nouă fereastră a aplicației"
 
-#: src/fsearch.c:723
+#: src/fsearch.c:727
 msgid "Show the application preferences"
 msgstr "Afișați preferințele aplicației"
 
-#: src/fsearch.c:724
+#: src/fsearch.c:728
 msgid "Set the search pattern"
 msgstr "Setați modelul căutării"
 
-#: src/fsearch.c:725
+#: src/fsearch.c:729
 msgid "Update the database and exit"
 msgstr "Se actualizează baza de date și se iese"
 
-#: src/fsearch.c:726
+#: src/fsearch.c:730
 msgid "Print version information and exit"
 msgstr "Se printează informațiile versiunii și se iese"
 
-#: src/fsearch_database_file.c:1250
+#: src/fsearch_database.c:611
+msgid "Index rescan: applying changes…"
+msgstr ""
+
+#: src/fsearch_database_file.c:1252
 msgid "Loading folders…"
 msgstr "Se încarcă foldere…"
 
-#: src/fsearch_database_file.c:1264
+#: src/fsearch_database_file.c:1266
 msgid "Loading files…"
 msgstr "Se încarcă dosare…"
 
-#: src/fsearch_database_index_store.c:727 src/fsearch_statusbar.c:72
+#: src/fsearch_database_index_store.c:745 src/fsearch_statusbar.c:72
 #: src/fsearch_statusbar.ui:90
 msgid "Sorting…"
 msgstr "Se sortează…"
@@ -394,7 +398,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:677
+#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:679
 #: src/menus.ui:275
 msgid "Type"
 msgstr ""
@@ -408,7 +412,7 @@ msgstr "Potrivire majuscule"
 msgid "Applies To"
 msgstr ""
 
-#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:663
+#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:665
 #: src/menus.ui:219 src/menus.ui:267
 msgid "Path"
 msgstr ""
@@ -648,7 +652,7 @@ msgstr ""
 msgid "Add filter"
 msgstr ""
 
-#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:656
+#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:658
 #: src/menus.ui:215 src/menus.ui:263
 msgid "Name"
 msgstr ""
@@ -1396,19 +1400,19 @@ msgstr ""
 msgid "REGEX"
 msgstr ""
 
-#: src/fsearch_window.c:670 src/menus.ui:279
+#: src/fsearch_window.c:672 src/menus.ui:279
 msgid "Size"
 msgstr ""
 
-#: src/fsearch_window.c:684 src/menus.ui:271
+#: src/fsearch_window.c:686 src/menus.ui:271
 msgid "Extension"
 msgstr ""
 
-#: src/fsearch_window.c:691 src/menus.ui:283
+#: src/fsearch_window.c:693 src/menus.ui:283
 msgid "Date Modified"
 msgstr ""
 
-#: src/fsearch_window.c:705
+#: src/fsearch_window.c:707
 msgid ""
 "Sorting by <b>Type</b> can take a few seconds with many results.\n"
 "\n"

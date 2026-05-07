@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 19:25+0200\n"
+"POT-Creation-Date: 2026-05-03 15:44+0200\n"
 "PO-Revision-Date: 2026-04-19 01:10+0000\n"
 "Last-Translator: Oğuz Ersen <oguz@ersen.moe>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/fsearch/"
@@ -294,39 +294,43 @@ msgstr "Oğuz Ersen"
 msgid "A search utility focusing on performance and advanced features"
 msgstr "Performansa ve gelişmiş özelliklere odaklanan bir arama programı"
 
-#: src/fsearch.c:721
+#: src/fsearch.c:725
 msgid "Open a new application window"
 msgstr "Yeni bir uygulama penceresi aç"
 
-#: src/fsearch.c:722
+#: src/fsearch.c:726
 msgid "Minimize the application window"
 msgstr "Uygulama penceresini küçült"
 
-#: src/fsearch.c:723
+#: src/fsearch.c:727
 msgid "Show the application preferences"
 msgstr "Uygulama tercihlerini göster"
 
-#: src/fsearch.c:724
+#: src/fsearch.c:728
 msgid "Set the search pattern"
 msgstr "Arama kalıbını ayarla"
 
-#: src/fsearch.c:725
+#: src/fsearch.c:729
 msgid "Update the database and exit"
 msgstr "Veri tabanını güncelle ve çık"
 
-#: src/fsearch.c:726
+#: src/fsearch.c:730
 msgid "Print version information and exit"
 msgstr "Sürüm bilgilerini yazdır ve çık"
 
-#: src/fsearch_database_file.c:1250
+#: src/fsearch_database.c:611
+msgid "Index rescan: applying changes…"
+msgstr ""
+
+#: src/fsearch_database_file.c:1252
 msgid "Loading folders…"
 msgstr "Klasörler yükleniyor…"
 
-#: src/fsearch_database_file.c:1264
+#: src/fsearch_database_file.c:1266
 msgid "Loading files…"
 msgstr "Dosyalar yükleniyor…"
 
-#: src/fsearch_database_index_store.c:727 src/fsearch_statusbar.c:72
+#: src/fsearch_database_index_store.c:745 src/fsearch_statusbar.c:72
 #: src/fsearch_statusbar.ui:90
 msgid "Sorting…"
 msgstr "Sıralanıyor…"
@@ -388,7 +392,7 @@ msgstr "Etkin"
 msgid "Pattern"
 msgstr "Kalıp"
 
-#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:677
+#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:679
 #: src/menus.ui:275
 msgid "Type"
 msgstr "Tür"
@@ -401,7 +405,7 @@ msgstr "Eşleşme"
 msgid "Applies To"
 msgstr "Uygulanır"
 
-#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:663
+#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:665
 #: src/menus.ui:219 src/menus.ui:267
 msgid "Path"
 msgstr "Yol"
@@ -636,7 +640,7 @@ msgstr ""
 msgid "Add filter"
 msgstr "Filtre ekle"
 
-#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:656
+#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:658
 #: src/menus.ui:215 src/menus.ui:263
 msgid "Name"
 msgstr "Ad"
@@ -1499,19 +1503,19 @@ msgstr "YOL"
 msgid "REGEX"
 msgstr "DÜZENLİ İFADE"
 
-#: src/fsearch_window.c:670 src/menus.ui:279
+#: src/fsearch_window.c:672 src/menus.ui:279
 msgid "Size"
 msgstr "Boyut"
 
-#: src/fsearch_window.c:684 src/menus.ui:271
+#: src/fsearch_window.c:686 src/menus.ui:271
 msgid "Extension"
 msgstr "Uzantı"
 
-#: src/fsearch_window.c:691 src/menus.ui:283
+#: src/fsearch_window.c:693 src/menus.ui:283
 msgid "Date Modified"
 msgstr "Değiştirilme Tarihi"
 
-#: src/fsearch_window.c:705
+#: src/fsearch_window.c:707
 msgid ""
 "Sorting by <b>Type</b> can take a few seconds with many results.\n"
 "\n"

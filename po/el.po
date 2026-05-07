@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FSearch 0.1beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 19:25+0200\n"
+"POT-Creation-Date: 2026-05-03 15:44+0200\n"
 "PO-Revision-Date: 2022-06-20 18:14+0000\n"
 "Last-Translator: lepa22 <lepa.22@hotmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/fsearch/"
@@ -294,40 +294,44 @@ msgstr ""
 "Μια εφαρμογή αναζήτησης που δίνει έμφαση στις επιδόσεις και τα προηγμένα "
 "χαρακτηριστικά"
 
-#: src/fsearch.c:721
+#: src/fsearch.c:725
 msgid "Open a new application window"
 msgstr "Άνοιγμα νέου παραθύρου εφαρμογής"
 
-#: src/fsearch.c:722
+#: src/fsearch.c:726
 #, fuzzy
 msgid "Minimize the application window"
 msgstr "Άνοιγμα νέου παραθύρου εφαρμογής"
 
-#: src/fsearch.c:723
+#: src/fsearch.c:727
 msgid "Show the application preferences"
 msgstr "Εμφάνιση των προτιμήσεων της εφαρμογής"
 
-#: src/fsearch.c:724
+#: src/fsearch.c:728
 msgid "Set the search pattern"
 msgstr "Ορισμός μοτίβου (pattern) αναζήτησης"
 
-#: src/fsearch.c:725
+#: src/fsearch.c:729
 msgid "Update the database and exit"
 msgstr "Ενημέρωση της βάσης δεδομένων και έξοδος"
 
-#: src/fsearch.c:726
+#: src/fsearch.c:730
 msgid "Print version information and exit"
 msgstr "Εμφάνιση πληροφοριών έκδοσης και έξοδος"
 
-#: src/fsearch_database_file.c:1250
+#: src/fsearch_database.c:611
+msgid "Index rescan: applying changes…"
+msgstr ""
+
+#: src/fsearch_database_file.c:1252
 msgid "Loading folders…"
 msgstr "Φόρτωση φακέλων…"
 
-#: src/fsearch_database_file.c:1264
+#: src/fsearch_database_file.c:1266
 msgid "Loading files…"
 msgstr "Φόρτωση αρχείων…"
 
-#: src/fsearch_database_index_store.c:727 src/fsearch_statusbar.c:72
+#: src/fsearch_database_index_store.c:745 src/fsearch_statusbar.c:72
 #: src/fsearch_statusbar.ui:90
 msgid "Sorting…"
 msgstr "Ταξινόμηση…"
@@ -391,7 +395,7 @@ msgstr "Ενεργό"
 msgid "Pattern"
 msgstr ""
 
-#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:677
+#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:679
 #: src/menus.ui:275
 msgid "Type"
 msgstr "Τύπος"
@@ -405,7 +409,7 @@ msgstr "Ταίριασμα πεζών-κεφαλαίων"
 msgid "Applies To"
 msgstr ""
 
-#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:663
+#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:665
 #: src/menus.ui:219 src/menus.ui:267
 msgid "Path"
 msgstr "Διαδρομή"
@@ -652,7 +656,7 @@ msgstr ""
 msgid "Add filter"
 msgstr "Προσθήκη φίλτρου"
 
-#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:656
+#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:658
 #: src/menus.ui:215 src/menus.ui:263
 msgid "Name"
 msgstr "Όνομα"
@@ -1344,19 +1348,19 @@ msgstr "ΔΙΑΔΡΟΜΗ"
 msgid "REGEX"
 msgstr "REGEX"
 
-#: src/fsearch_window.c:670 src/menus.ui:279
+#: src/fsearch_window.c:672 src/menus.ui:279
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: src/fsearch_window.c:684 src/menus.ui:271
+#: src/fsearch_window.c:686 src/menus.ui:271
 msgid "Extension"
 msgstr ""
 
-#: src/fsearch_window.c:691 src/menus.ui:283
+#: src/fsearch_window.c:693 src/menus.ui:283
 msgid "Date Modified"
 msgstr "Ημερομηνία τροποποίησης"
 
-#: src/fsearch_window.c:705
+#: src/fsearch_window.c:707
 msgid ""
 "Sorting by <b>Type</b> can take a few seconds with many results.\n"
 "\n"

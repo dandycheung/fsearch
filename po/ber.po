@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fsearch 0.1beta4.58-6c306-dirty\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 19:25+0200\n"
+"POT-Creation-Date: 2026-05-03 15:44+0200\n"
 "PO-Revision-Date: 2023-01-24 20:50+0000\n"
 "Last-Translator: ⵣⵓⵀⵉⵔ ⴰⵎⴰⵣⵉⵖ زهير أمازيغ <zouhirdehbi56@gmail.com>\n"
 "Language-Team: Berber <https://hosted.weblate.org/projects/fsearch/"
@@ -275,44 +275,48 @@ msgstr "ⵣⵓⵀⵉⵔ ⴷⴷⵀⴱⵉ"
 msgid "A search utility focusing on performance and advanced features"
 msgstr ""
 
-#: src/fsearch.c:721
+#: src/fsearch.c:725
 msgid "Open a new application window"
 msgstr ""
 
-#: src/fsearch.c:722
+#: src/fsearch.c:726
 msgid "Minimize the application window"
 msgstr ""
 
-#: src/fsearch.c:723
+#: src/fsearch.c:727
 msgid "Show the application preferences"
 msgstr ""
 
-#: src/fsearch.c:724
+#: src/fsearch.c:728
 #, fuzzy
 msgid "Set the search pattern"
 msgstr "ⵙⵎⴰⵍ ⴰⴱⴰⵡ ⵏ ⵓⵔⵣⵣⵓ"
 
-#: src/fsearch.c:725
+#: src/fsearch.c:729
 #, fuzzy
 msgid "Update the database and exit"
 msgstr "ⵙⴷⵖⵉ ⵜⵙⵉⵍⴰ ⵏ ⵉⵙⴼⴽⴰ"
 
-#: src/fsearch.c:726
+#: src/fsearch.c:730
 #, fuzzy
 msgid "Print version information and exit"
 msgstr "ⵙⵎⴰⵍ ⵓⵎⵍⴰⵏ ⵏ ⵜⵍⵇⵇⵉⵎⵜ"
 
-#: src/fsearch_database_file.c:1250
+#: src/fsearch_database.c:611
+msgid "Index rescan: applying changes…"
+msgstr ""
+
+#: src/fsearch_database_file.c:1252
 #, fuzzy
 msgid "Loading folders…"
 msgstr "ⴰⴽⵜⵓⵔ ⵏ ⵜⵙⵉⵍⴰ ⵏ ⵉⵙⴼⴽⴰ…"
 
-#: src/fsearch_database_file.c:1264
+#: src/fsearch_database_file.c:1266
 #, fuzzy
 msgid "Loading files…"
 msgstr "ⵓⴽⵓⵙ ⵏ ⵉⴼⴰⵢⵍⵓⵜⵏ…"
 
-#: src/fsearch_database_index_store.c:727 src/fsearch_statusbar.c:72
+#: src/fsearch_database_index_store.c:745 src/fsearch_statusbar.c:72
 #: src/fsearch_statusbar.ui:90
 #, fuzzy
 msgid "Sorting…"
@@ -377,7 +381,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:677
+#: src/fsearch_database_preferences_widget.c:689 src/fsearch_window.c:679
 #: src/menus.ui:275
 msgid "Type"
 msgstr "ⴰⵙⵔⵜⵓ"
@@ -390,7 +394,7 @@ msgstr ""
 msgid "Applies To"
 msgstr ""
 
-#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:663
+#: src/fsearch_database_preferences_widget.c:728 src/fsearch_window.c:665
 #: src/menus.ui:219 src/menus.ui:267
 msgid "Path"
 msgstr "ⴰⴱⵔⵉⴷ"
@@ -619,7 +623,7 @@ msgstr ""
 msgid "Add filter"
 msgstr "ⵉⵙⴷⴰⵡⵏ"
 
-#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:656
+#: src/fsearch_filter_preferences_widget.c:316 src/fsearch_window.c:658
 #: src/menus.ui:215 src/menus.ui:263
 msgid "Name"
 msgstr "ⵉⵙⵎ"
@@ -1286,19 +1290,19 @@ msgstr "ⴰⴱⵔⵉⴷ"
 msgid "REGEX"
 msgstr ""
 
-#: src/fsearch_window.c:670 src/menus.ui:279
+#: src/fsearch_window.c:672 src/menus.ui:279
 msgid "Size"
 msgstr "ⴰⴷⴷⵓⴷ"
 
-#: src/fsearch_window.c:684 src/menus.ui:271
+#: src/fsearch_window.c:686 src/menus.ui:271
 msgid "Extension"
 msgstr ""
 
-#: src/fsearch_window.c:691 src/menus.ui:283
+#: src/fsearch_window.c:693 src/menus.ui:283
 msgid "Date Modified"
 msgstr "ⴰⵙⴰⴽⵓⴷ ⵉⵜⵜⵓⵙⵏⴼⵍⵏ"
 
-#: src/fsearch_window.c:705
+#: src/fsearch_window.c:707
 msgid ""
 "Sorting by <b>Type</b> can take a few seconds with many results.\n"
 "\n"
